@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadDemo", "DocumentUploadDemo\DocumentUploadDemo.csproj", "{FC0FA2C5-1741-45DC-849D-00A94F19004A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentUploadCore", "DocumentUploadCore\DocumentUploadCore.csproj", "{8A4C6BEC-5163-45A0-93F6-29CB5CB0FEEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadCore", "DocumentUploadCore\DocumentUploadCore.csproj", "{8A4C6BEC-5163-45A0-93F6-29CB5CB0FEEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteDataSource", "SQLiteDataSource\SQLiteDataSource.csproj", "{1567A578-2553-4E28-823F-1324AF475A6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8A4C6BEC-5163-45A0-93F6-29CB5CB0FEEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A4C6BEC-5163-45A0-93F6-29CB5CB0FEEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A4C6BEC-5163-45A0-93F6-29CB5CB0FEEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1567A578-2553-4E28-823F-1324AF475A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1567A578-2553-4E28-823F-1324AF475A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1567A578-2553-4E28-823F-1324AF475A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1567A578-2553-4E28-823F-1324AF475A6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
