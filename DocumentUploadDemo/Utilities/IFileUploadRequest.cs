@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using DocumentUploadCore;
+using DocumentUploadCore.Entities;
 
 namespace DocumentUploadDemo.Utilities
 {
