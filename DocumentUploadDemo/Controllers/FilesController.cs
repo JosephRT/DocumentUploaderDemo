@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using DocumentUploadCore;
+using DocumentUploadCore.Entities;
+using DocumentUploadCore.Library;
 using DocumentUploadDemo.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,27 +11,40 @@ namespace DocumentUploadDemo.Controllers
     [ApiController]
     public class FilesController : ControllerBase
     {
-        private readonly string targetFilePath = "c:\\files";
+        private readonly IDocumentManagementService documentManagementService;
+        private readonly IFileUploadRequestFactory fileUploadRequestFactory;
 
-        // GET: api/<FilesController>
+        public FilesController(IDocumentManagementService documentManagementService, IFileUploadRequestFactory fileUploadRequestFactory)
+        {
+            this.documentManagementService = documentManagementService;
+            this.fileUploadRequestFactory = fileUploadRequestFactory;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<ManagedDocumentMetadata>> Get()
         {
-            return new[] {"value1", "value2"};
+            return await documentManagementService.ListDocumentsAsync();
         }
 
-        // GET api/<FilesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var retrievedDocument = await documentManagementService.GetDocumentAsync(id);
+
+            if (retrievedDocument == null)
+            {
+                return NotFound();
+            }
+
+            const string contentType = "APPLICATION/octet-stream";
+            var fullFileName = $"{retrievedDocument.Metadata.Name}{retrievedDocument.Metadata.FileType}";
+            return File(retrievedDocument.Contents, contentType, fullFileName);
         }
 
-        // POST api/<FilesController>
         [HttpPost]
         public async Task<IActionResult> Post()
         {
-            IFileUploadRequest uploadRequest = new StreamingFileUploadRequest(Request);
+            var uploadRequest = fileUploadRequestFactory.GetFileUploadRequest(Request);
             ManagedDocument[] uploadedFiles;
 
             try
@@ -45,23 +58,16 @@ namespace DocumentUploadDemo.Controllers
 
             foreach (var currentFile in uploadedFiles)
             {
-                await using var targetStream = System.IO.File.Create(Path.Combine(targetFilePath, $"{currentFile.Metadata.Name}{currentFile.Metadata.FileType}"));
-                await targetStream.WriteAsync(currentFile.Contents);
+                await documentManagementService.SaveDocumentAsync(currentFile);
             }
 
             return Created(nameof(FilesController), null);
         }
 
-        // PUT api/<FilesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<FilesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete(int id)
         {
+            await documentManagementService.DeleteDocumentAsync(id);
         }
     }
 }
