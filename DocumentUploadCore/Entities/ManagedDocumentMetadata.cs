@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DocumentUploadCore
+namespace DocumentUploadCore.Entities
 {
     public class ManagedDocumentMetadata
     {

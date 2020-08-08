@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DocumentUploadCore.Data;
+using DocumentUploadCore.Entities;
 
-namespace DocumentUploadCore
+namespace DocumentUploadCore.Library
 {
     public class DocumentManagementService : IDocumentManagementService
     {
@@ -14,24 +16,24 @@ namespace DocumentUploadCore
         }
 
 
-        public Task<int> SaveDocument(ManagedDocument documentToSave)
+        public Task<int> SaveDocumentAsync(ManagedDocument documentToSave)
         {
-            return documentRepository.SaveDocument(documentToSave);
+            return documentRepository.SaveDocumentAsync(documentToSave);
         }
 
-        public Task<IReadOnlyList<ManagedDocumentMetadata>> ListDocuments()
+        public Task<IList<ManagedDocumentMetadata>> ListDocumentsAsync()
         {
-            return documentRepository.ListDocuments();
+            return documentRepository.ListDocumentsAsync();
         }
 
-        public Task DeleteDocument(int documentToDelete)
+        public Task DeleteDocumentAsync(int documentToDelete)
         {
-            return documentRepository.DeleteDocument(documentToDelete);
+            return documentRepository.DeleteDocumentAsync(documentToDelete);
         }
 
-        public Task<ManagedDocument> GetDocument(int documentToRetrieve)
+        public Task<ManagedDocument> GetDocumentAsync(int documentToRetrieve)
         {
-            return documentRepository.GetDocument(documentToRetrieve);
+            return documentRepository.GetDocumentAsync(documentToRetrieve);
         }
     }
 }

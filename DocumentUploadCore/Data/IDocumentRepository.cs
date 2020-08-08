@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DocumentUploadCore.Entities;
 
-namespace DocumentUploadCore
+namespace DocumentUploadCore.Data
 {
     public interface IDocumentRepository
     {
-        Task DeleteDocument(int documentToDelete);
-        Task<ManagedDocument> GetDocument(int documentToRetrieve);
-        Task<IReadOnlyList<ManagedDocumentMetadata>> ListDocuments();
-        Task<int> SaveDocument(ManagedDocument documentToSave);
+        Task DeleteDocumentAsync(int documentToDelete);
+        Task<ManagedDocument> GetDocumentAsync(int documentToRetrieve);
+        Task<IList<ManagedDocumentMetadata>> ListDocumentsAsync();
+        Task<int> SaveDocumentAsync(ManagedDocument documentToSave);
     }
 }
