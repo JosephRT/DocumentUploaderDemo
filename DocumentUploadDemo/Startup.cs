@@ -1,8 +1,8 @@
 using System.Data;
 using System.Data.SQLite;
-using System.Runtime.Serialization;
 using DocumentUploadCore.Data;
 using DocumentUploadCore.Library;
+using DocumentUploadDemo.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +29,7 @@ namespace DocumentUploadDemo
             services.AddSingleton<IDocumentManagementService, DocumentManagementService>();
             services.AddSingleton<IDbConnection>(new SQLiteConnection("Data Source=documentUploader.db"));
             services.AddSingleton<IDocumentRepository, SQLiteDocumentRepository>();
+            services.AddSingleton<IFileUploadRequestFactory, FileUploadRequestFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
