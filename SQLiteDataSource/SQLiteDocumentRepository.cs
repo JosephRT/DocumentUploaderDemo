@@ -42,7 +42,7 @@ namespace SQLiteDataSource
                 }),
                 splitOn: "contents",
                 param: new { id = documentToRetrieve});
-            return retrievedDocument.First();
+            return retrievedDocument.FirstOrDefault();
         }
 
         public async Task<IList<ManagedDocumentMetadata>> ListDocumentsAsync()
