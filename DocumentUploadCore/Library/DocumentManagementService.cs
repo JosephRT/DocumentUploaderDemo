@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DocumentUploadCore.Data;
 using DocumentUploadCore.Entities;
@@ -18,6 +20,8 @@ namespace DocumentUploadCore.Library
 
         public Task<int> SaveDocumentAsync(ManagedDocument documentToSave)
         {
+            ValidateDocument(documentToSave);
+
             return documentRepository.SaveDocumentAsync(documentToSave);
         }
 
@@ -34,6 +38,16 @@ namespace DocumentUploadCore.Library
         public Task<ManagedDocument> GetDocumentAsync(int documentToRetrieve)
         {
             return documentRepository.GetDocumentAsync(documentToRetrieve);
+        }
+
+        private static void ValidateDocument(ManagedDocument documentToSave)
+        {
+            var allowedFileExtensions = new [] {"txt"};
+
+            if (allowedFileExtensions.Contains(documentToSave.Metadata.FileType))
+            {
+                throw new InvalidDataException($"Invalid file extension \"{documentToSave.Metadata.FileType}\".  Allowed file extensions: {string.Join(",", allowedFileExtensions)}");
+            }
         }
     }
 }

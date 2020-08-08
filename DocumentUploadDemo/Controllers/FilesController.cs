@@ -45,20 +45,19 @@ namespace DocumentUploadDemo.Controllers
         public async Task<IActionResult> Post()
         {
             var uploadRequest = fileUploadRequestFactory.GetFileUploadRequest(Request);
-            ManagedDocument[] uploadedFiles;
 
             try
             {
-                uploadedFiles = await uploadRequest.ReadUploadedFiles();
+                var uploadedFiles = await uploadRequest.ReadUploadedFiles();
+
+                foreach (var currentFile in uploadedFiles)
+                {
+                    await documentManagementService.SaveDocumentAsync(currentFile);
+                }
             }
             catch (InvalidFileUploadException ex)
             {
                 return BadRequest(ex.Message);
-            }
-
-            foreach (var currentFile in uploadedFiles)
-            {
-                await documentManagementService.SaveDocumentAsync(currentFile);
             }
 
             return Created(nameof(FilesController), null);
