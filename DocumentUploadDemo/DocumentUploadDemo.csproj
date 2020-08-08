@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.103" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DocumentUploadCore\DocumentUploadCore.csproj" />
+    <ProjectReference Include="..\SQLiteDataSource\SQLiteDataSource.csproj" />
   </ItemGroup>
 
 

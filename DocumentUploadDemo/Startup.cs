@@ -1,15 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data;
+using System.Data.SQLite;
+using System.Runtime.Serialization;
+using DocumentUploadCore.Data;
+using DocumentUploadCore.Library;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using SQLiteDataSource;
 
 namespace DocumentUploadDemo
 {
@@ -26,6 +25,10 @@ namespace DocumentUploadDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSingleton<IDocumentManagementService, DocumentManagementService>();
+            services.AddSingleton<IDbConnection>(new SQLiteConnection("Data Source=documentUploader.db"));
+            services.AddSingleton<IDocumentRepository, SQLiteDocumentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
