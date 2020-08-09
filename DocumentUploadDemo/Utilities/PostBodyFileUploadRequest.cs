@@ -1,12 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using DocumentUploadCore.Entities;
 using Microsoft.AspNetCore.Http;
 
 namespace DocumentUploadDemo.Utilities
 {
-    public class PostBodyFileUploadRequest : IFileUploadRequest
+    public class PostBodyFileUploadRequest : FileUploadRequest
     {
         private readonly HttpRequest request;
 
@@ -17,21 +16,20 @@ namespace DocumentUploadDemo.Utilities
         }
 
 
-        public async Task<ManagedDocument[]> ReadUploadedFiles()
+        public override async Task<ManagedDocument[]> ReadUploadedFiles()
         {
             ValidateFileUpload();
 
             var fileName = request.Query["fileName"];
-            await using var memoryStream = new MemoryStream();
-            await request.Body.CopyToAsync(memoryStream);
+            var fileContents = await ProcessStreamContents(request.Body);
 
             var readDocument = new ManagedDocument
             {
-                Contents = memoryStream.ToArray(),
+                Contents = fileContents,
                 Metadata = new ManagedDocumentMetadata
                 {
                     Created = DateTime.Now,
-                    FileType = ".txt",
+                    FileType = ResolveFileExtensionFromContentType(),
                     Name = fileName
                 }
             };
@@ -41,17 +39,20 @@ namespace DocumentUploadDemo.Utilities
 
         private void ValidateFileUpload()
         {
-            var uploadedFileTypeIsDisallowed = request.ContentType != "text/plain";
-            if (uploadedFileTypeIsDisallowed)
-            {
-                throw new InvalidFileUploadException("Invalid file type uploaded.");
-            }
-
             var didNotSpecifyFileName = string.IsNullOrEmpty(request.Query["fileName"]);
             if (didNotSpecifyFileName)
             {
                 throw new InvalidFileUploadException("\"fileName\" query param must be provided when POSTing a binary file");
             }
+        }
+
+        private string ResolveFileExtensionFromContentType()
+        {
+            return request.ContentType switch
+            {
+                "text/plain" => "txt",
+                _ => ""
+            };
         }
     }
 }

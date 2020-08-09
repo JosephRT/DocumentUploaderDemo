@@ -4,7 +4,7 @@ namespace DocumentUploadDemo.Utilities
 {
     public class FileUploadRequestFactory : IFileUploadRequestFactory
     {
-        public IFileUploadRequest GetFileUploadRequest(HttpRequest request)
+        public FileUploadRequest GetFileUploadRequest(HttpRequest request)
         {
             if (request.ContentType.Contains("multipart/form-data"))
             {

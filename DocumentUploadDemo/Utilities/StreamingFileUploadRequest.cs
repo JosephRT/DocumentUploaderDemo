@@ -11,13 +11,10 @@ using Microsoft.Net.Http.Headers;
 
 namespace DocumentUploadDemo.Utilities
 {
-    public class StreamingFileUploadRequest : IFileUploadRequest
+    public class StreamingFileUploadRequest : FileUploadRequest
     {
         private readonly DateTime createdOn;
         private readonly HttpRequest request;
-        private static readonly int BoundaryLengthLimit = new FormOptions().MultipartBoundaryLengthLimit;
-        private const long FileSizeLimit = 10_000_000_000_000_000;
-        private static readonly string[] PermittedExtensions = { ".txt" };
 
 
         public StreamingFileUploadRequest(HttpRequest request)
@@ -27,7 +24,7 @@ namespace DocumentUploadDemo.Utilities
         }
 
 
-        public async Task<ManagedDocument[]> ReadUploadedFiles()
+        public override async Task<ManagedDocument[]> ReadUploadedFiles()
         {
             var managedDocuments = new Dictionary<string, ManagedDocument>();
             var multipartFormBoundary = GetBoundary(MediaTypeHeaderValue.Parse(request.ContentType));
@@ -62,7 +59,7 @@ namespace DocumentUploadDemo.Utilities
                         };
                     }
 
-                    var streamedFileContent = await ProcessStreamedFile(multipartFormSection, contentDisposition, FileSizeLimit);
+                    var streamedFileContent = await ProcessStreamedFile(multipartFormSection, contentDisposition);
                     // TODO: Need to append any current contents to the new contents
                     currentManagedDocument.Contents = streamedFileContent;
 
@@ -85,9 +82,10 @@ namespace DocumentUploadDemo.Utilities
             }
 
             // The spec at https://tools.ietf.org/html/rfc2046#section-5.1 states that 70 characters is a reasonable limit.
-            if (boundary.Length > BoundaryLengthLimit)
+            var boundaryLengthLimit = new FormOptions().MultipartBoundaryLengthLimit;;
+            if (boundary.Length > boundaryLengthLimit)
             {
-                throw new InvalidFileUploadException($"Multipart boundary length limit {BoundaryLengthLimit} exceeded.");
+                throw new InvalidFileUploadException($"Multipart boundary length limit {boundaryLengthLimit} exceeded.");
             }
 
             return boundary;
@@ -113,41 +111,16 @@ namespace DocumentUploadDemo.Utilities
             }
         }
 
-        private static async Task<byte[]> ProcessStreamedFile(MultipartSection section, ContentDispositionHeaderValue contentDisposition, long sizeLimit)
+        private static async Task<byte[]> ProcessStreamedFile(MultipartSection section, ContentDispositionHeaderValue contentDisposition)
         {
-            try
+            var sectionContents = await ProcessStreamContents(section.Body);
+
+            if (string.IsNullOrEmpty(contentDisposition.FileName.Value))
             {
-                await using var memoryStream = new MemoryStream();
-                await section.Body.CopyToAsync(memoryStream);
-
-                if (memoryStream.Length == 0)
-                {
-                    throw new InvalidFileUploadException("The file is empty");
-                }
-
-                if (memoryStream.Length > sizeLimit)
-                {
-                    var megabyteSizeLimit = sizeLimit / 1048576;
-                    throw new InvalidFileUploadException($"The file exceeds {megabyteSizeLimit:N1} MB.");
-                }
-
-                if (string.IsNullOrEmpty(contentDisposition.FileName.Value))
-                {
-                    throw new InvalidFileUploadException("File name and extension missing");
-                }
-
-                var fileExtension = Path.GetExtension(contentDisposition.FileName.Value)?.ToLowerInvariant();
-                if (!PermittedExtensions.Contains(fileExtension))
-                {
-                    throw new InvalidFileUploadException($"Invalid file extension \"{fileExtension}\" disallowed; ");
-                }
-
-                return memoryStream.ToArray();
+                throw new InvalidFileUploadException("File name and extension missing");
             }
-            catch (Exception ex)
-            {
-                throw new Exception("File upload failed", ex);
-            }
+
+            return sectionContents;
         }
     }
 }
