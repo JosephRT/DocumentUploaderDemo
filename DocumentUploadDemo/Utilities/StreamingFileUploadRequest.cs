@@ -53,7 +53,7 @@ namespace DocumentUploadDemo.Utilities
                             Metadata = new ManagedDocumentMetadata
                             {
                                 Created = createdOn,
-                                FileType = Path.GetExtension(fullFileName).ToLowerInvariant(),
+                                FileType = Path.GetExtension(fullFileName).ToLowerInvariant().Replace(".", string.Empty),
                                 Name = Path.GetFileNameWithoutExtension(fullFileName)
                             }
                         };

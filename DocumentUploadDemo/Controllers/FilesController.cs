@@ -37,7 +37,7 @@ namespace DocumentUploadDemo.Controllers
             }
 
             const string contentType = "APPLICATION/octet-stream";
-            var fullFileName = $"{retrievedDocument.Metadata.Name}{retrievedDocument.Metadata.FileType}";
+            var fullFileName = retrievedDocument.Metadata.FullFileName;
             return File(retrievedDocument.Contents, contentType, fullFileName);
         }
 
