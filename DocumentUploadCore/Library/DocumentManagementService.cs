@@ -18,18 +18,6 @@ namespace DocumentUploadCore.Library
         }
 
 
-        public Task<int> SaveDocumentAsync(ManagedDocument documentToSave)
-        {
-            ValidateDocument(documentToSave);
-
-            return documentRepository.SaveDocumentAsync(documentToSave);
-        }
-
-        public Task<IList<ManagedDocumentMetadata>> ListDocumentsAsync()
-        {
-            return documentRepository.ListDocumentsAsync();
-        }
-
         public Task DeleteDocumentAsync(int documentToDelete)
         {
             return documentRepository.DeleteDocumentAsync(documentToDelete);
@@ -40,11 +28,24 @@ namespace DocumentUploadCore.Library
             return documentRepository.GetDocumentAsync(documentToRetrieve);
         }
 
+        public Task<IList<ManagedDocumentMetadata>> ListDocumentsAsync()
+        {
+            return documentRepository.ListDocumentsAsync();
+        }
+
+        public Task<int> SaveDocumentAsync(ManagedDocument documentToSave)
+        {
+            ValidateDocument(documentToSave);
+
+            return documentRepository.SaveDocumentAsync(documentToSave);
+        }
+
         private static void ValidateDocument(ManagedDocument documentToSave)
         {
             var allowedFileExtensions = new [] {"txt"};
 
-            if (allowedFileExtensions.Contains(documentToSave.Metadata.FileType))
+            var documentToSaveHasDisallowedExtension = !allowedFileExtensions.Contains(documentToSave.Metadata.FileType);
+            if (documentToSaveHasDisallowedExtension)
             {
                 throw new InvalidDataException($"Invalid file extension \"{documentToSave.Metadata.FileType}\".  Allowed file extensions: {string.Join(",", allowedFileExtensions)}");
             }
