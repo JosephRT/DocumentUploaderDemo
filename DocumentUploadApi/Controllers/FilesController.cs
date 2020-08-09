@@ -2,6 +2,7 @@
 using DocumentUploadApi.Utilities;
 using DocumentUploadCore.Library;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace DocumentUploadApi.Controllers
 {
@@ -13,11 +14,11 @@ namespace DocumentUploadApi.Controllers
         private readonly IFileUploadRequestFactory fileUploadRequestFactory;
         private readonly FileUploadSettings fileUploadSettings;
 
-        public FilesController(IDocumentManagementService documentManagementService, IFileUploadRequestFactory fileUploadRequestFactory, FileUploadSettings fileUploadSettings)
+        public FilesController(IDocumentManagementService documentManagementService, IFileUploadRequestFactory fileUploadRequestFactory, IOptions<FileUploadSettings> fileUploadSettings)
         {
             this.documentManagementService = documentManagementService;
             this.fileUploadRequestFactory = fileUploadRequestFactory;
-            this.fileUploadSettings = fileUploadSettings;
+            this.fileUploadSettings = fileUploadSettings.Value;
         }
 
         [HttpGet]

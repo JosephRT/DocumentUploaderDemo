@@ -8,6 +8,7 @@ using DocumentUploadCore.Entities;
 using DocumentUploadCore.Library;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 
@@ -18,13 +19,17 @@ namespace DocumentUploadApiTests
     {
         private Mock<IDocumentManagementService> mockDocumentManagementService;
         private Mock<IFileUploadRequestFactory> mockFileUploadRequestFactory;
-        private readonly FileUploadSettings fileUploadSettings = new FileUploadSettings {ServerMaxAllowedFileSizeInMb = 1};
+        private readonly FileUploadSettings fileUploadSettings = new FileUploadSettings { ServerMaxAllowedFileSizeInMb = 1 };
+        private Mock<IOptions<FileUploadSettings>> mockFileUploadSettingsConfiguration;
+
 
         [SetUp]
         public void SetUp()
         {
             mockDocumentManagementService = new Mock<IDocumentManagementService>();
             mockFileUploadRequestFactory = new Mock<IFileUploadRequestFactory>();
+            mockFileUploadSettingsConfiguration = new Mock<IOptions<FileUploadSettings>>();
+            mockFileUploadSettingsConfiguration.SetupGet(p => p.Value).Returns(fileUploadSettings);
         }
 
         [Test]
@@ -49,8 +54,8 @@ namespace DocumentUploadApiTests
             };
             mockDocumentManagementService.Setup(d => d.ListDocumentsAsync())
                 .ReturnsAsync(testDocumentsMetadata);
-            
-            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, fileUploadSettings);
+
+            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, mockFileUploadSettingsConfiguration.Object);
             var result = await controller.Get();
 
             Assert.That(result, Is.TypeOf<OkObjectResult>()
@@ -63,7 +68,7 @@ namespace DocumentUploadApiTests
             mockDocumentManagementService.Setup(d => d.ListDocumentsAsync())
                 .ReturnsAsync(new List<ManagedDocumentMetadata>());
 
-            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, fileUploadSettings);
+            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, mockFileUploadSettingsConfiguration.Object);
             var result = await controller.Get();
 
             Assert.That(result, Is.TypeOf<OkObjectResult>()
@@ -87,7 +92,7 @@ namespace DocumentUploadApiTests
             mockDocumentManagementService.Setup(d => d.GetDocumentAsync(testDocument.Metadata.Id))
                 .ReturnsAsync(testDocument);
 
-            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, fileUploadSettings);
+            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, mockFileUploadSettingsConfiguration.Object);
             var result = await controller.Get(testDocument.Metadata.Id);
 
             Assert.That(result, Is.TypeOf<FileContentResult>()
@@ -102,7 +107,7 @@ namespace DocumentUploadApiTests
             mockDocumentManagementService.Setup(d => d.GetDocumentAsync(It.IsAny<int>()))
                 .ReturnsAsync((ManagedDocument)null);
 
-            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, fileUploadSettings);
+            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, mockFileUploadSettingsConfiguration.Object);
             var result = await controller.Get(1);
 
             Assert.That(result, Is.TypeOf<NotFoundResult>());
@@ -143,7 +148,7 @@ namespace DocumentUploadApiTests
                 .Returns(mockFileUploadRequest.Object);
             mockDocumentManagementService.Setup(d => d.SaveDocumentAsync(It.IsAny<ManagedDocument>()));
 
-            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, fileUploadSettings);
+            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, mockFileUploadSettingsConfiguration.Object);
             var result = await controller.Post();
 
             Assert.That(result, Is.TypeOf<CreatedResult>());
@@ -161,7 +166,7 @@ namespace DocumentUploadApiTests
             mockFileUploadRequestFactory.Setup(f => f.GetFileUploadRequest(It.IsAny<HttpRequest>(), It.IsAny<FileUploadSettings>()))
                 .Returns(mockFileUploadRequest.Object);
 
-            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, fileUploadSettings);
+            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, mockFileUploadSettingsConfiguration.Object);
             var result = await controller.Post();
 
             Assert.That(result, Is.TypeOf<BadRequestObjectResult>()
@@ -175,7 +180,7 @@ namespace DocumentUploadApiTests
             const int docIdToDelete = 1;
             mockDocumentManagementService.Setup(d => d.DeleteDocumentAsync(It.Is<int>(p => p == docIdToDelete)));
 
-            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, fileUploadSettings);
+            var controller = new FilesController(mockDocumentManagementService.Object, mockFileUploadRequestFactory.Object, mockFileUploadSettingsConfiguration.Object);
             var result = await controller.Delete(docIdToDelete);
 
             Assert.That(result, Is.TypeOf<OkResult>());
