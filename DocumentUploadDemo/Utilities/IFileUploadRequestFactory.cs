@@ -4,6 +4,6 @@ namespace DocumentUploadDemo.Utilities
 {
     public interface IFileUploadRequestFactory
     {
-        FileUploadRequest GetFileUploadRequest(HttpRequest request);
+        FileUploadRequest GetFileUploadRequest(HttpRequest request, FileUploadSettings settings);
     }
 }

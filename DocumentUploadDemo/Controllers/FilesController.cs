@@ -11,11 +11,13 @@ namespace DocumentUploadDemo.Controllers
     {
         private readonly IDocumentManagementService documentManagementService;
         private readonly IFileUploadRequestFactory fileUploadRequestFactory;
+        private readonly FileUploadSettings fileUploadSettings;
 
-        public FilesController(IDocumentManagementService documentManagementService, IFileUploadRequestFactory fileUploadRequestFactory)
+        public FilesController(IDocumentManagementService documentManagementService, IFileUploadRequestFactory fileUploadRequestFactory, FileUploadSettings fileUploadSettings)
         {
             this.documentManagementService = documentManagementService;
             this.fileUploadRequestFactory = fileUploadRequestFactory;
+            this.fileUploadSettings = fileUploadSettings;
         }
 
         [HttpGet]
@@ -43,7 +45,7 @@ namespace DocumentUploadDemo.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
-            var uploadRequest = fileUploadRequestFactory.GetFileUploadRequest(Request);
+            var uploadRequest = fileUploadRequestFactory.GetFileUploadRequest(Request, fileUploadSettings);
 
             try
             {

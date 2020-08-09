@@ -10,7 +10,7 @@ namespace DocumentUploadDemo.Utilities
         private readonly HttpRequest request;
 
 
-        public PostBodyFileUploadRequest(HttpRequest request)
+        public PostBodyFileUploadRequest(HttpRequest request, FileUploadSettings settings) : base(settings)
         {
             this.request = request;
         }

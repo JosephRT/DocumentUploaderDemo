@@ -4,14 +4,14 @@ namespace DocumentUploadDemo.Utilities
 {
     public class FileUploadRequestFactory : IFileUploadRequestFactory
     {
-        public FileUploadRequest GetFileUploadRequest(HttpRequest request)
+        public FileUploadRequest GetFileUploadRequest(HttpRequest request, FileUploadSettings settings)
         {
             if (request.ContentType.Contains("multipart/form-data"))
             {
-                return new StreamingFileUploadRequest(request);
+                return new StreamingFileUploadRequest(request, settings);
             }
             
-            return new PostBodyFileUploadRequest(request);
+            return new PostBodyFileUploadRequest(request, settings);
         }
     }
 }

@@ -30,6 +30,8 @@ namespace DocumentUploadDemo
             services.AddSingleton<IDbConnection>(new SQLiteConnection("Data Source=documentUploader.db"));
             services.AddSingleton<IDocumentRepository, SQLiteDocumentRepository>();
             services.AddSingleton<IFileUploadRequestFactory, FileUploadRequestFactory>();
+
+            services.Configure<FileUploadSettings>(f => f.ServerMaxAllowedFileSizeInMb = int.Parse(Configuration["ServerMaxAllowedFileSizeInMb"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

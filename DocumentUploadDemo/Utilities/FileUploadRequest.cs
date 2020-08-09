@@ -9,10 +9,18 @@ namespace DocumentUploadDemo.Utilities
 {
     public abstract class FileUploadRequest
     {
+        private readonly FileUploadSettings settings;
         public abstract Task<ManagedDocument[]> ReadUploadedFiles();
 
+        protected FileUploadRequest() { }
+
+        protected FileUploadRequest(FileUploadSettings settings)
+        {
+            this.settings = settings;
+        }
+
         
-        internal static async Task<byte[]> ProcessStreamContents(Stream bodyStream)
+        internal async Task<byte[]> ProcessStreamContents(Stream bodyStream)
         {
             await using var memoryStream = new MemoryStream();
 
@@ -30,11 +38,10 @@ namespace DocumentUploadDemo.Utilities
                 throw new InvalidFileUploadException("The file is empty");
             }
 
-            const long fileSizeLimitInBytes = 15_000_000;
+            var fileSizeLimitInBytes = settings.ServerMaxAllowedFileSizeInMb * 1_000_000;
             if (memoryStream.Length > fileSizeLimitInBytes)
             {
-                const long megabyteSizeLimit = fileSizeLimitInBytes / 1_000_000;
-                throw new InvalidFileUploadException($"The file exceeds {megabyteSizeLimit:N1} MB.");
+                throw new InvalidFileUploadException($"The file exceeds {settings.ServerMaxAllowedFileSizeInMb} MB.");
             }
 
             return memoryStream.ToArray();

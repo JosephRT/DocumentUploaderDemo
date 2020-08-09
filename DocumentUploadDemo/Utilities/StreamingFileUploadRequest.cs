@@ -17,7 +17,7 @@ namespace DocumentUploadDemo.Utilities
         private readonly HttpRequest request;
 
 
-        public StreamingFileUploadRequest(HttpRequest request)
+        public StreamingFileUploadRequest(HttpRequest request, FileUploadSettings settings) : base(settings)
         {
             createdOn = DateTime.Now;
             this.request = request;
@@ -111,7 +111,7 @@ namespace DocumentUploadDemo.Utilities
             }
         }
 
-        private static async Task<byte[]> ProcessStreamedFile(MultipartSection section, ContentDispositionHeaderValue contentDisposition)
+        private async Task<byte[]> ProcessStreamedFile(MultipartSection section, ContentDispositionHeaderValue contentDisposition)
         {
             var sectionContents = await ProcessStreamContents(section.Body);
 
