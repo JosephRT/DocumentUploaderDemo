@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -12,8 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DocumentUploadApi\DocumentUploadApi.csproj" />
     <ProjectReference Include="..\DocumentUploadCore\DocumentUploadCore.csproj" />
-    <ProjectReference Include="..\DocumentUploadDemo\DocumentUploadDemo.csproj" />
+    <ProjectReference Include="..\DocumentUploadDemo\DocumentUploadApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadDemo", "DocumentUploadDemo\DocumentUploadDemo.csproj", "{FC0FA2C5-1741-45DC-849D-00A94F19004A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadApi", "DocumentUploadApi\DocumentUploadApi.csproj", "{FC0FA2C5-1741-45DC-849D-00A94F19004A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadCore", "DocumentUploadCore\DocumentUploadCore.csproj", "{8A4C6BEC-5163-45A0-93F6-29CB5CB0FEEA}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteDataSource", "SQLiteD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadCoreTests", "DocumentUploadCoreTests\DocumentUploadCoreTests.csproj", "{12F69E8D-3811-4415-844F-E107C3257C4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentUploadApiTests", "DocumentUploadApiTests\DocumentUploadApiTests.csproj", "{732CF8E2-4FE0-4CC4-AC6C-A0D6D32BAF2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadApiTests", "DocumentUploadApiTests\DocumentUploadApiTests.csproj", "{732CF8E2-4FE0-4CC4-AC6C-A0D6D32BAF2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
