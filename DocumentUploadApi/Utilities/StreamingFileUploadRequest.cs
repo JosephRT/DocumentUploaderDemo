@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
-namespace DocumentUploadDemo.Utilities
+namespace DocumentUploadApi.Utilities
 {
     public class StreamingFileUploadRequest : FileUploadRequest
     {
@@ -82,7 +82,7 @@ namespace DocumentUploadDemo.Utilities
             }
 
             // The spec at https://tools.ietf.org/html/rfc2046#section-5.1 states that 70 characters is a reasonable limit.
-            var boundaryLengthLimit = new FormOptions().MultipartBoundaryLengthLimit;;
+            var boundaryLengthLimit = new FormOptions().MultipartBoundaryLengthLimit;
             if (boundary.Length > boundaryLengthLimit)
             {
                 throw new InvalidFileUploadException($"Multipart boundary length limit {boundaryLengthLimit} exceeded.");

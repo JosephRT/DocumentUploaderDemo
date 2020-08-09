@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DocumentUploadApi;
+using DocumentUploadApi.Controllers;
+using DocumentUploadApi.Utilities;
 using DocumentUploadCore.Entities;
 using DocumentUploadCore.Library;
-using DocumentUploadDemo;
-using DocumentUploadDemo.Controllers;
-using DocumentUploadDemo.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

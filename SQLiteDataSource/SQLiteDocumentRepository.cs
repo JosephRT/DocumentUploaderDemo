@@ -51,8 +51,8 @@ namespace SQLiteDataSource
                 SELECT managedDocumentId as id, created, name, fileType
                 FROM [managedDocuments]";
 
-            var documentMetadatas =  await databaseConnection.QueryAsync<ManagedDocumentMetadata>(listDocumentsMetadataSql);
-            return documentMetadatas.ToList();
+            var documentsMetadata =  await databaseConnection.QueryAsync<ManagedDocumentMetadata>(listDocumentsMetadataSql);
+            return documentsMetadata.ToList();
         }
 
         public async Task<int> SaveDocumentAsync(ManagedDocument documentToSave)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DocumentUploadDemo.Utilities
+namespace DocumentUploadApi.Utilities
 {
     public class InvalidFileUploadException : Exception
     {

@@ -1,8 +1,8 @@
 using System.Data;
 using System.Data.SQLite;
+using DocumentUploadApi.Utilities;
 using DocumentUploadCore.Data;
 using DocumentUploadCore.Library;
-using DocumentUploadDemo.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SQLiteDataSource;
 
-namespace DocumentUploadDemo
+namespace DocumentUploadApi
 {
     public class Startup
     {

@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using DocumentUploadApi.Utilities;
 using DocumentUploadCore.Library;
-using DocumentUploadDemo.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DocumentUploadDemo.Controllers
+namespace DocumentUploadApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

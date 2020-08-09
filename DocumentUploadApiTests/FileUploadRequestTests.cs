@@ -2,9 +2,9 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using DocumentUploadApi;
+using DocumentUploadApi.Utilities;
 using DocumentUploadCore.Entities;
-using DocumentUploadDemo;
-using DocumentUploadDemo.Utilities;
 using NUnit.Framework;
 
 namespace DocumentUploadApiTests
@@ -45,10 +45,11 @@ namespace DocumentUploadApiTests
         public void StreamTooLargeThrowsException()
         {
             var testStream = new MemoryStream(Encoding.UTF8.GetBytes("TestStreamContents"));
+            var testSettings = new FileUploadSettings {ServerMaxAllowedFileSizeInMb = 0};
 
-            var request = new TestFileUploadRequest(new FileUploadSettings { ServerMaxAllowedFileSizeInMb = 0 });
+            var request = new TestFileUploadRequest(testSettings);
             Assert.That(async () => await request.ProcessStreamContents(testStream), Throws.TypeOf<InvalidFileUploadException>()
-                .And.Message.EqualTo($"The file exceeds 0 MB."));
+                .And.Message.EqualTo($"The file exceeds {testSettings.ServerMaxAllowedFileSizeInMb} MB."));
         }
 
 

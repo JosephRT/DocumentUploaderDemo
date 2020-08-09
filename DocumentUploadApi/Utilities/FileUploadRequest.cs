@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using DocumentUploadCore.Entities;
 
 [assembly:InternalsVisibleTo("DocumentUploadApiTests")]
-namespace DocumentUploadDemo.Utilities
+namespace DocumentUploadApi.Utilities
 {
     public abstract class FileUploadRequest
     {

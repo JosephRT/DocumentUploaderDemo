@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace DocumentUploadDemo.Utilities
+namespace DocumentUploadApi.Utilities
 {
     public interface IFileUploadRequestFactory
     {

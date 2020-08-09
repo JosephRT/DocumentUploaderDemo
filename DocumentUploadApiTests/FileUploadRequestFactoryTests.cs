@@ -1,5 +1,5 @@
-﻿using DocumentUploadDemo;
-using DocumentUploadDemo.Utilities;
+﻿using DocumentUploadApi;
+using DocumentUploadApi.Utilities;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using NUnit.Framework;

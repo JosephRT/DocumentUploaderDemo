@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using DocumentUploadCore.Entities;
 using Microsoft.AspNetCore.Http;
 
-namespace DocumentUploadDemo.Utilities
+namespace DocumentUploadApi.Utilities
 {
     public class PostBodyFileUploadRequest : FileUploadRequest
     {

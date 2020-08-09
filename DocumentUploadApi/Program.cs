@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace DocumentUploadDemo
+namespace DocumentUploadApi
 {
     public class Program
     {
