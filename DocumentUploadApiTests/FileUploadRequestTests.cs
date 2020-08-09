@@ -24,7 +24,7 @@ namespace DocumentUploadApiTests
         }
 
         [Test]
-        public void EmptyStreamReturnsException()
+        public void EmptyStreamThrowsException()
         {
             var testStream = new MemoryStream();
 
@@ -34,11 +34,21 @@ namespace DocumentUploadApiTests
         }
 
         [Test]
-        public void NullStreamReturnsException()
+        public void NullStreamThrowsException()
         {
             var request = new TestFileUploadRequest(new FileUploadSettings { ServerMaxAllowedFileSizeInMb = 1 });
             Assert.That(async () => await request.ProcessStreamContents(null), Throws.TypeOf<Exception>()
                 .And.Message.EqualTo("File upload failed"));
+        }
+
+        [Test]
+        public void StreamTooLargeThrowsException()
+        {
+            var testStream = new MemoryStream(Encoding.UTF8.GetBytes("TestStreamContents"));
+
+            var request = new TestFileUploadRequest(new FileUploadSettings { ServerMaxAllowedFileSizeInMb = 0 });
+            Assert.That(async () => await request.ProcessStreamContents(testStream), Throws.TypeOf<InvalidFileUploadException>()
+                .And.Message.EqualTo($"The file exceeds 0 MB."));
         }
 
 
