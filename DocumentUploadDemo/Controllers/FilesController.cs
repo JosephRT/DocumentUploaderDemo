@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using DocumentUploadCore.Entities;
+﻿using System.Threading.Tasks;
 using DocumentUploadCore.Library;
 using DocumentUploadDemo.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +19,10 @@ namespace DocumentUploadDemo.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ManagedDocumentMetadata>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await documentManagementService.ListDocumentsAsync();
+            var documentsMetadata = await documentManagementService.ListDocumentsAsync();
+            return Ok(documentsMetadata);
         }
 
         [HttpGet("{id}")]
@@ -64,9 +63,10 @@ namespace DocumentUploadDemo.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await documentManagementService.DeleteDocumentAsync(id);
+            return Ok();
         }
     }
 }

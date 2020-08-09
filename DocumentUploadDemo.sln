@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadCore", "Docum
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteDataSource", "SQLiteDataSource\SQLiteDataSource.csproj", "{1567A578-2553-4E28-823F-1324AF475A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentUploadCoreTests", "DocumentUploadCoreTests\DocumentUploadCoreTests.csproj", "{12F69E8D-3811-4415-844F-E107C3257C4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentUploadCoreTests", "DocumentUploadCoreTests\DocumentUploadCoreTests.csproj", "{12F69E8D-3811-4415-844F-E107C3257C4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentUploadApiTests", "DocumentUploadApiTests\DocumentUploadApiTests.csproj", "{732CF8E2-4FE0-4CC4-AC6C-A0D6D32BAF2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{12F69E8D-3811-4415-844F-E107C3257C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12F69E8D-3811-4415-844F-E107C3257C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12F69E8D-3811-4415-844F-E107C3257C4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{732CF8E2-4FE0-4CC4-AC6C-A0D6D32BAF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{732CF8E2-4FE0-4CC4-AC6C-A0D6D32BAF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{732CF8E2-4FE0-4CC4-AC6C-A0D6D32BAF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{732CF8E2-4FE0-4CC4-AC6C-A0D6D32BAF2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
