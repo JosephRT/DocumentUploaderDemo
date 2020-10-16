@@ -26,10 +26,10 @@ namespace DocumentUploadApi
         {
             services.AddControllers();
 
-            services.AddSingleton<IDocumentManagementService, DocumentManagementService>();
-            services.AddSingleton<IDbConnection>(new SQLiteConnection("Data Source=documentUploader.db"));
-            services.AddSingleton<IDocumentRepository, SQLiteDocumentRepository>();
-            services.AddSingleton<IFileUploadRequestFactory, FileUploadRequestFactory>();
+            services.AddTransient<IDocumentManagementService, DocumentManagementService>();
+            services.AddTransient<IDbConnection>(new SQLiteConnection("Data Source=documentUploader.db"));
+            services.AddTransient<IDocumentRepository, SQLiteDocumentRepository>();
+            services.AddTransient<IFileUploadRequestFactory, FileUploadRequestFactory>();
 
             services.Configure<FileUploadSettings>(f => f.ServerMaxAllowedFileSizeInMb = int.Parse(Configuration["ServerMaxAllowedFileSizeInMb"]));
         }
